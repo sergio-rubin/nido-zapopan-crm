@@ -29,6 +29,13 @@
       "when": 1792733090373,
       "tag": "0003_auto_staff_role",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792733573702,
+      "tag": "0004_backfill_staff_roles",
+      "breakpoints": true
     }
   ]
 }
