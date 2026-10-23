@@ -22,6 +22,13 @@
       "when": 1792732778846,
       "tag": "0002_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792733090373,
+      "tag": "0003_auto_staff_role",
+      "breakpoints": true
     }
   ]
 }
