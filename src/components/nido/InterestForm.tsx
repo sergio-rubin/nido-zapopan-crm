@@ -118,8 +118,8 @@ export function InterestForm({ onClose }: { onClose: () => void }) {
             type="checkbox"
             checked={values.privacy_consent}
             onChange={(e) => set("privacy_consent", e.target.checked)}
-            aria-invalid={Boolean(errors.privacy_consent)}
-            aria-describedby={errors.privacy_consent ? "lead-consent-error" : undefined}
+            aria-invalid={Boolean(errors["privacy_consent"])}
+            aria-describedby={errors["privacy_consent"] ? "lead-consent-error" : undefined}
           />
           <span className="checkbox-box">
             <Check size={15} aria-hidden="true" />
@@ -132,9 +132,9 @@ export function InterestForm({ onClose }: { onClose: () => void }) {
             .
           </span>
         </label>
-        {errors.privacy_consent && (
+        {errors["privacy_consent"] && (
           <p id="lead-consent-error" className="field-error">
-            {errors.privacy_consent}
+            {errors["privacy_consent"]}
           </p>
         )}
       </div>
