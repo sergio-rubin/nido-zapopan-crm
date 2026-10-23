@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   countByStatus,
   filterLeads,
+  hasStaffAccess,
   isAllowedOrigin,
   sortLeadsDesc,
   validateLeadInput,
@@ -95,5 +96,13 @@ describe("CRM", () => {
     expect(filterLeads(leads, "Todos", "ana").length).toBe(2);
     expect(filterLeads(leads, "Nuevo", "ana").length).toBe(1);
     expect(filterLeads(leads, "Todos", "jose").length).toBe(1);
+  });
+});
+
+describe("acceso al CRM", () => {
+  it("sólo staff o admin tienen acceso", () => {
+    expect(hasStaffAccess(["staff"])).toBe(true);
+    expect(hasStaffAccess(["admin"])).toBe(true);
+    expect(hasStaffAccess([])).toBe(false);
   });
 });

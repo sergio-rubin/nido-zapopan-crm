@@ -153,3 +153,7 @@ export function isAllowedOrigin(origin: string, requestHosts: string[] = [], ext
     return false;
   }
 }
+
+export function hasStaffAccess(roles: string[]) {
+  return roles.includes("staff") || roles.includes("admin");
+}
