@@ -30,7 +30,7 @@ describe("create-lead contract", () => {
   it("rechaza campos extra como status o note", () => {
     const r = validateLeadInput({ name: "Ana", phone: "3312345678", email: "a@b.mx", status: "Le interesa" });
     expect(r.ok).toBe(false);
-    if (!r.ok) expect(r.errors.status).toBeDefined();
+    if (!r.ok) expect(r.errors["status"]).toBeDefined();
   });
 
   it("limita longitudes", () => {
