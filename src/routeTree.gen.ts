@@ -10,33 +10,89 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
+import { Route as AuthenticatedInteresadosRouteImport } from './routes/_authenticated/interesados'
+import { Route as ApiPublicCreateLeadRouteImport } from './routes/api/public/create-lead'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedInteresadosRoute =
+  AuthenticatedInteresadosRouteImport.update({
+    id: '/interesados',
+    path: '/interesados',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const ApiPublicCreateLeadRoute = ApiPublicCreateLeadRouteImport.update({
+  id: '/api/public/create-lead',
+  path: '/api/public/create-lead',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/interesados': typeof AuthenticatedInteresadosRoute
+  '/api/public/create-lead': typeof ApiPublicCreateLeadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/interesados': typeof AuthenticatedInteresadosRoute
+  '/api/public/create-lead': typeof ApiPublicCreateLeadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/login': typeof LoginRoute
+  '/privacidad': typeof PrivacidadRoute
+  '/_authenticated/interesados': typeof AuthenticatedInteresadosRoute
+  '/api/public/create-lead': typeof ApiPublicCreateLeadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/login' | '/privacidad' | '/interesados' | '/api/public/create-lead'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    '/' | '/login' | '/privacidad' | '/interesados' | '/api/public/create-lead'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/login'
+    | '/privacidad'
+    | '/_authenticated/interesados'
+    | '/api/public/create-lead'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  PrivacidadRoute: typeof PrivacidadRoute
+  ApiPublicCreateLeadRoute: typeof ApiPublicCreateLeadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +104,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/interesados': {
+      id: '/_authenticated/interesados'
+      path: '/interesados'
+      fullPath: '/interesados'
+      preLoaderRoute: typeof AuthenticatedInteresadosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/create-lead': {
+      id: '/api/public/create-lead'
+      path: '/api/public/create-lead'
+      fullPath: '/api/public/create-lead'
+      preLoaderRoute: typeof ApiPublicCreateLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedInteresadosRoute: typeof AuthenticatedInteresadosRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedInteresadosRoute: AuthenticatedInteresadosRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  LoginRoute: LoginRoute,
+  PrivacidadRoute: PrivacidadRoute,
+  ApiPublicCreateLeadRoute: ApiPublicCreateLeadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
