@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicCreateLeadRouteImport } from './routes/api/public/create-lead'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCreateLeadRoute = ApiPublicCreateLeadRouteImport.update({
+  id: '/api/public/create-lead',
+  path: '/api/public/create-lead',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/public/create-lead': typeof ApiPublicCreateLeadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/public/create-lead': typeof ApiPublicCreateLeadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/public/create-lead': typeof ApiPublicCreateLeadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/public/create-lead'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/public/create-lead'
+  id: '__root__' | '/' | '/api/public/create-lead'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiPublicCreateLeadRoute: typeof ApiPublicCreateLeadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/create-lead': {
+      id: '/api/public/create-lead'
+      path: '/api/public/create-lead'
+      fullPath: '/api/public/create-lead'
+      preLoaderRoute: typeof ApiPublicCreateLeadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiPublicCreateLeadRoute: ApiPublicCreateLeadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

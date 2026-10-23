@@ -70,7 +70,3 @@ export function PropertyGallery() {
     </section>
   );
 }
-
-export function FeatureRail() {
-  return null;
-}
