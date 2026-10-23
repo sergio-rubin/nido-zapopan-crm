@@ -11,6 +11,7 @@ import {
   NOTE_MAX,
   countByStatus,
   filterLeads,
+  hasStaffAccess,
   whatsappUrl,
   type Lead,
   type LeadStatus,
@@ -58,7 +59,11 @@ const statusSlug = (s: LeadStatus) => s.toLowerCase().replace(/\s+/g, "-");
 function LeadsPage() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const leads = useQuery({ queryKey: LEADS_KEY, queryFn: fetchLeads });
+  const leads = useQuery({
+    queryKey: LEADS_KEY,
+    queryFn: fetchLeads,
+    retry: (count, error) => !(error instanceof NoAccessError) && count < 2,
+  });
   const [status, setStatus] = useState<LeadStatus | "Todos">("Todos");
   const [search, setSearch] = useState("");
 
@@ -145,12 +150,22 @@ function LeadsPage() {
             </div>
           </div>
         ) : leads.isError ? (
-          <div className="empty-state" role="alert">
-            <p>{leads.error.message}</p>
-            <UiButton variant="outline" onClick={() => leads.refetch()}>
-              Reintentar
-            </UiButton>
-          </div>
+          leads.error instanceof NoAccessError ? (
+            <div className="empty-state" role="alert">
+              <UsersRound size={34} strokeWidth={1.3} aria-hidden="true" />
+              <p>
+                <strong>Tu cuenta no tiene acceso</strong>
+              </p>
+              <p>Pide a un administrador que asigne el rol de ventas a tu cuenta.</p>
+            </div>
+          ) : (
+            <div className="empty-state" role="alert">
+              <p>{leads.error.message}</p>
+              <UiButton variant="outline" onClick={() => leads.refetch()}>
+                Reintentar
+              </UiButton>
+            </div>
+          )
         ) : visible.length === 0 ? (
           <div className="empty-state">
             <UsersRound size={34} strokeWidth={1.3} aria-hidden="true" />
