@@ -1532,7 +1532,7 @@ a.ui-button { text-decoration: none; }
 .crm-summary {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  margin: 0 0 1.5rem;
+  margin: 2.2rem 0 1.5rem;
   padding: 0;
   list-style: none;
   border: 1px solid var(--line);
@@ -1611,3 +1611,5 @@ a.ui-button { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] { opacity: 1; transform: none; }
 }
+
+.legal-page .session-actions { position: static; margin-top: 1.5rem; }
